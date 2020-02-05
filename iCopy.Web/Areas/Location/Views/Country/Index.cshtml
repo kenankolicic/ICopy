@@ -1,0 +1,218 @@
+﻿@model iCopy.Web.Models.DataTable<iCopy.Model.Response.Country>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = _sharedLocalizer.CountrySettings;
+}
+
+<div class="kt-portlet kt-portlet--mobile">
+    <div class="kt-portlet__head kt-portlet__head--lg">
+        <div class="kt-portlet__head-label">
+            <span class="kt-portlet__head-icon">
+                <i class="kt-font-brand fa fa-map-marker-alt"></i>
+            </span>
+            <h3 class="kt-portlet__head-title">
+                @_sharedLocalizer.CountrySettings
+            </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+                <div class="kt-portlet__head-actions">
+                    <a href="@Settings.Routes.Country.Insert" ajax-add="modal-bs" class="btn btn-brand btn-icon-sm">
+                        <i class="la la-plus"></i>
+                        @_sharedLocalizer.AddCountry
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <div class="row">
+            <div class="kt-form kt-form--fit kt-margin-b-20 col-md-12">
+                <div class="row kt-margin-b-20" id="search-parameters">
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                        <label>@_sharedLocalizer.Name:</label>
+                        <input name="name" id="name" type="text" class="form-control kt-input" placeholder="@_sharedLocalizer.Name">
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                        <label>@_sharedLocalizer.ShortName:</label>
+                        <input name="shortname" id="shortname" type="text" class="form-control kt-input" placeholder="@_sharedLocalizer.ShortName">
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                        <label>@_sharedLocalizer.PhoneCode:</label>
+                        <input name="phonecode" id="phonecode" type="number" class="form-control kt-input" placeholder="@_sharedLocalizer.PhoneCode">
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                        <label>&nbsp;</label>
+                        <div class="btn-group btn-group-toggle col-md-12 p-0" data-toggle="buttons" data-col-index="3">
+                            <label class="btn btn-secondary active">
+                                <input name="active" id="active" type="radio" autocomplete="off" checked class="form-control" value=""> @_sharedLocalizer.All
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input name="active" id="active" type="radio" autocomplete="off" class="form-control" value="true"> @_sharedLocalizer.Active
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input name="active" id="active" type="radio" autocomplete="off" class="form-control" value="false"> @_sharedLocalizer.Inactive
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-separator kt-separator--md kt-separator--dashed"></div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button class="btn btn-secondary btn-secondary--icon pull-right ml-3" id="datatable-reset">
+                            <span>
+                                <i class="la la-close"></i>
+                                <span>@_sharedLocalizer.Reset</span>
+                            </span>
+                        </button>
+                        <button class="btn btn-brand btn-brand--icon pull-right" id="datatable-search">
+                            <span>
+                                <i class="la la-search"></i>
+                                <span>@_sharedLocalizer.Search</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-bordered table-hover text-dark no-footer dtr-inline" id="datatable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>@_sharedLocalizer.Name  </th>
+                    <th>@_sharedLocalizer.ShortName</th>
+                    <th>@_sharedLocalizer.PhoneCode</th>
+                    <th>@_sharedLocalizer.PhoneNumberRegex</th>
+                    <th>@_sharedLocalizer.Active</th>
+                    <th>@_sharedLocalizer.Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.data)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.ShortName</td>
+                        <td>@item.PhoneNumberCode</td>
+                        <td>@item.PhoneNumberRegex</td>
+                        <td>@item.Active</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    var DataTable = {
+        init: function () {
+            var datatable = $("#datatable");
+            datatable.DataTable({
+                responsive: true,
+                deferLoading: '@Model.recordsTotal',
+                processing: true,
+                serverSide: true,
+                searching: false,
+                autoWidth: true,
+                pageLength: 15,
+                lengthMenu: [10, 15, 25, 50],
+                order: [[1, 'asc']],
+                language: {
+                    'lengthMenu': '_MENU_',
+                },
+                // DOM Layout settings
+                dom: `<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+                ajax: {
+                    url: "@Settings.Routes.Country.GetData",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: function (searchData) {
+                        searchData.Search = {
+                            Name : $("#name").val(),
+                            ShortName : $("#shortname").val(),
+                            Active : $("#active:checked").val(),
+                            PhoneCode : $("#phonecode").val()
+                        };
+                        return searchData;
+                    }
+                },
+                columns: [
+                    { data: "id" },
+                    { data: "name" },
+                    { data: 'shortName' },
+                    { data: 'phoneNumberCode' },
+                    { data: 'phoneNumberRegex' },
+                    { data: 'active' },
+                    { data: 'actions' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        name: 'ID',
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 1,
+                        name: '@nameof(iCopy.Model.Request.Country.Name)'
+                    },
+                    {
+                        targets: 2,
+                        name: '@nameof(iCopy.Model.Request.Country.ShortName)'
+                    },
+                    {
+                        targets: 3,
+                        name: '@nameof(iCopy.Model.Request.Country.PhoneNumberCode)',
+                        className: 'text-center'
+                    },
+                    {
+                        targets: 4,
+                        name: '@nameof(iCopy.Model.Request.Country.PhoneNumberRegex)',
+                        className: 'text-center',
+                        orderable: false
+                    },
+                    {
+                        targets: 5,
+                        orderable: false,
+                        className: 'text-center align-middle',
+                        render: function (data, type, full, meta) {
+                            if (full.active == 'True' || full.active == true) {
+                                return `<span class="kt-badge kt-badge--inline kt-badge--success">@_sharedLocalizer.Active</span>`
+                            }
+                            return `<span class="kt-badge kt-badge--inline kt-badge--danger">@_sharedLocalizer.Inactive</span>`
+                        }
+                    },
+                    {
+                        targets: -1,
+                        orderable: false,
+                        className: 'text-center align-middle',
+                        render: function (data, type, full, meta) {
+                            return `
+<a href="@Settings.Routes.Country.Update/${full.id}" ajax-add="modal-bs" class="btn btn-sm btn-clean btn-icon btn-icon-md p-0 m-0"><i class="la la-edit"></i></a>
+<a href="@Settings.Routes.Country.Delete/${full.id}" ajax-delete="true" class="btn btn-sm btn-clean btn-icon btn-icon-md p-0 m-0"><i class="la la-trash"></i></a>
+<a href="@Settings.Routes.Country.ChangeActiveStatus/${full.id}" ajax-activate="true" class="btn btn-sm btn-clean btn-icon btn-icon-md p-0 m-0"><i class="la la-toggle-on"></i></a>
+`;
+                        }
+                    }
+                ]
+            });
+            return datatable;
+        }
+    }
+
+    $(document).ready(function () {
+        DataTable.init();
+        $('#datatable-search').on('click', function (e) {
+            e.preventDefault();
+            $("#datatable").DataTable().ajax.reload();
+        });
+        $("#datatable-reset").on('click', function (e) {
+            $("#search-parameters input[type='text']").val('');
+            $("#search-parameters input[type='number']").val('');
+            $("#search-parameters input[type=radio]:first").parent().trigger('click');
+            $("#datatable-search").trigger('click');
+        });
+    });
+</script>

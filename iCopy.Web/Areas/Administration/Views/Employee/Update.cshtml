@@ -1,0 +1,540 @@
+﻿@model iCopy.Model.Response.Employee
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = _sharedLocalizer.UpdateEmployeeDetails;
+}
+@section styles{
+    <link href="https://unpkg.com/croppie/croppie.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="https://unpkg.com/croppie"></script>
+    <script src="~/assets/js/PasswordFunctions.js"></script>
+}
+
+<div id="alert-messages">
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-solid-success alert-bold" role="alert">
+            <div class="alert-text">@TempData["success"]</div>
+            <div class="alert-close">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="la la-close"></i></span>
+                </button>
+            </div>
+        </div>
+    }
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-solid-danger alert-bold" role="alert" id="alert-danger">
+            <div class="alert-text">@TempData["error"]</div>
+            <div class="alert-close">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="la la-close"></i></span>
+                </button>
+            </div>
+        </div>
+    }
+</div>
+<div class="kt-portlet kt-portlet--tabs">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-toolbar">
+            <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#kt_apps_user_edit_tab_1" role="tab" aria-selected="true">
+                        <i class="fa fa-hotel"></i>@_sharedLocalizer.EmployeeSettings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#kt_apps_user_edit_tab_2" role="tab" aria-selected="false">
+                        <i class="fa fa-user"></i> @_sharedLocalizer.AccountSettings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#change_password" role="tab" aria-selected="false">
+                        <i class="fa fa-user-shield"></i>@_sharedLocalizer.ChangePassword
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+                <a href="@Settings.Routes.Employee.Index" class="btn btn-clean btn-icon-sm">
+                    <i class="la la-long-arrow-left"></i>
+                    Back
+                </a>
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="kt_apps_user_edit_tab_1" role="tabpanel">
+                <form asp-area="Administration" asp-controller="Employee" asp-action="Update" asp-route-id="@Model.ID" asp-antiforgery="true" id="update-employee-form">
+                    <div class="kt-form kt-form--label-right">
+                        <div class="kt-form__body">
+                            <div class="kt-section kt-section--first">
+                                <div class="kt-section__body">
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.ProfileImage</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="kt-avatar kt-avatar--outline kt-avatar--circle-" id="kt_apps_user_add_avatar">
+                                                <div class="kt-avatar__holder" style="background-image: url(&quot;/@(Model?.ProfilePhoto?.Path?.Replace("\\", "/") ?? Settings.Defaults.Photo.ProfilePhoto)&quot;);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.ChangeProfileImage</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="kt-dropzone m-dropzone--success" action="@Settings.Routes.Upload.UploadProfileImage" id="dropzone">
+                                                <div class="kt-dropzone__msg dz-message needsclick">
+                                                    <h5 class="kt-dropzone__msg-title">@_sharedLocalizer.DragFilesOrClickToUpload</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.FirstName</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input class="form-control" type="text" asp-for="Person.FirstName" placeholder="@_sharedLocalizer.FirstName">
+                                            <span asp-validation-for="Person.FirstName" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.LastName</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input class="form-control" type="text" asp-for="Person.LastName" placeholder="@_sharedLocalizer.LastName">
+                                            <span asp-validation-for="Person.LastName" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.MiddleName</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input class="form-control" type="text" asp-for="Person.MiddleName" placeholder="@_sharedLocalizer.MiddleName">
+                                            <span asp-validation-for="Person.MiddleName" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Gender</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <select class="form-control kt-select2" asp-items="@(await _selectList.Genders())" asp-for="Person.Gender"></select>
+                                            </div>
+                                            <span asp-validation-for="Person.Gender" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Country</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <select class="form-control kt-select2" asp-items="@(await _selectList.Countries())" asp-for="Person.City.CountryID"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.City</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <select class="form-control kt-select2" asp-items="@(await _selectList.Cities(Model.Person.City.CountryID))" asp-for="Person.CityId"></select>
+                                            </div>
+                                            <span asp-validation-for="Person.CityId" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.BirthDate</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input type="text" class="form-control" asp-for="Person.BirthDate" placeholder="@_sharedLocalizer.BirthDate">
+                                            <span asp-validation-for="Person.BirthDate" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Address</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input type="text" class="form-control" asp-for="Person.Address" placeholder="@_sharedLocalizer.Address">
+                                            <span asp-validation-for="Person.Address" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Copier</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <select class="form-control kt-select2" asp-items="@(await _selectList.Copiers(Model.Copier.CompanyId))" asp-for="CopierId"></select>
+                                            </div>
+                                            <span asp-validation-for="CopierId" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-last row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Active</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="kt-checkbox-list">
+                                                <label class="kt-checkbox">
+                                                    <input type="checkbox" asp-for="Active">
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid"></div>
+                            <div class="kt-form__actions">
+                                <div class="row">
+                                    <div class="col-xl-3"></div>
+                                    <div class="col-lg-9 col-xl-6">
+                                        <button type="submit" class="btn btn-label-brand btn-bold">@_sharedLocalizer.SaveChanges</button>
+                                        <button type="reset" class="btn btn-clean btn-bold">@_sharedLocalizer.Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="kt_apps_user_edit_tab_2" role="tabpanel">
+                <div class="kt-form kt-form--label-right">
+                    <form asp-area="administration" asp-controller="user" asp-action="update" asp-route-id="@Model.ApplicationUserId" asp-antiforgery="true" id="update-user-form">
+                        <div class="kt-form__body">
+                            <div class="kt-section kt-section--first">
+                                <div class="kt-section__body">
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Username</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input class="form-control" type="text" name="Username" placeholder="@_sharedLocalizer.Username" value="@Model.User.Username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Email</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <input type="email" class="form-control" name="Email" placeholder="@_sharedLocalizer.Email" value="@Model.User.Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.PhoneNumber</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="PhoneNumber" placeholder="@_sharedLocalizer.PhoneNumber" value="@Model.User.PhoneNumber">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.Settings</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="kt-checkbox-inline">
+                                                <label class="kt-checkbox">
+                                                    <input type="checkbox" name="TwoFactorEnabled" value="true" @(Model.User.TwoFactorEnabled ? $"checked='checked" : string.Empty)> @_sharedLocalizer.TwoFactorEnabled
+                                                    <input type="hidden" name="TwoFactorEnabled" value="false" />
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox">
+                                                    <input type="checkbox" name="Active" value="true" @(Model.User.Active ? $"checked='checked'" : string.Empty) /> @_sharedLocalizer.Active
+                                                    <input type="hidden" name="Active" value="false" />
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox">
+                                                    <input type="checkbox" name="ChangePassword" value="true" @(Model.User.ChangePassword ? $"checked='checked'" : string.Empty)> @_sharedLocalizer.ChangePassword
+                                                    <input type="hidden" name="ChangePassword" value="false" />
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-last row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label"></label>
+                                        <div class="col-lg-9 col-xl-6 col-lg-offset-3">
+                                            <div class="kt-checkbox-inline">
+                                                @if (Model.User.EmailConfirmed)
+                                                {
+                                                    <span class="kt-badge kt-badge--inline kt-badge--success">@_sharedLocalizer.EmailConfirmed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="kt-badge kt-badge--inline kt-badge--danger">@_sharedLocalizer.EmailNotConfirmed</span>
+                                                }
+                                                @if (Model.User.PhoneNumberConfirmed)
+                                                {
+                                                    <span class="kt-badge kt-badge--inline kt-badge--success">@_sharedLocalizer.PhoneNumberConfirmed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="kt-badge kt-badge--inline kt-badge--danger">@_sharedLocalizer.PhoneNumberNotConfirmed</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid"></div>
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col-xl-3"></div>
+                                <div class="col-lg-9 col-xl-6">
+                                    <button type="submit" class="btn btn-label-brand btn-bold">@_sharedLocalizer.SaveChanges</button>
+                                    <button type="reset" class="btn btn-clean btn-bold">@_sharedLocalizer.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane" id="change_password" role="tabpanel">
+                <div class="kt-form kt-form--label-right">
+                    <form asp-area="Administration" asp-controller="User" asp-action="UpdatePassword" asp-route-id="@Model.ApplicationUserId" asp-antiforgery="true" id="update-password-form">
+                        <div class="kt-form__body">
+                            <div class="kt-section kt-section--first">
+                                <div class="kt-section__body">
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.CurrentPassword</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input type="password" class="form-control" name="CurrentPassword" placeholder="@_sharedLocalizer.CurrentPassword">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.NewPassword</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" name="NewPassword" placeholder="@_sharedLocalizer.Password" autocomplete="off">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-brand btn-icon" type="button" id="generate-password"><i class="fa fa-key"></i></button>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-brand btn-icon" type="button" id="view-password"><i class="fa fa-eye"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-last row">
+                                        <label for="ConfirmNewPassword" class="col-xl-3 col-lg-3 col-form-label">@_sharedLocalizer.PasswordConfirm</label>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input type="password" class="form-control" name="ConfirmNewPassword" placeholder="@_sharedLocalizer.PasswordConfirm" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid"></div>
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col-xl-3"></div>
+                                <div class="col-lg-9 col-xl-6">
+                                    <button type="submit" class="btn btn-label-brand btn-bold">@_sharedLocalizer.SaveChanges</button>
+                                    <button type="reset" class="btn btn-clean btn-bold">@_sharedLocalizer.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var Events = {
+        GeneratePassword: function() {
+            $('#generate-password').on('click', function(e) {
+                e.preventDefault();
+                let generatedPassword = Password.Generate();
+                $('input[name=\'NewPassword\']').val(generatedPassword);
+                $('input[name=\'ConfirmNewPassword\']').val(generatedPassword);
+            });
+        },
+        ViewPassword: function() {
+            $('#view-password').on('click', function(e) {
+                e.preventDefault();
+                $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+                $('input[name=\'NewPassword\']').attr('type',
+                    $(this).is(function() { return $('input[name=\'NewPassword\']').attr('type') == 'password' })
+                    ? 'text'
+                    : 'password');
+            });
+        },
+        SubmitUpdatePasswordForm: function () {
+            $("#update-password-form").on('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var form = $(this);
+                $("#alert-messages").html("");
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        form.trigger('reset');
+                        if (result.success) {
+                            $("#alert-messages").html(
+                                `<div class="alert alert-solid-success alert-bold" role="alert"><div class="alert-text">${
+                                result.message
+                                }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                            );
+                        } else {
+                            $("#alert-messages").html(
+                                `<div class="alert alert-solid-danger alert-bold" role="alert"><div class="alert-text">${
+                                result.message
+                                }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                            );
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        form.trigger('reset');
+                        for (let key in xhr.responseJSON) {
+                            if (key != null) {
+                                $("#alert-messages").append(
+                                    `<div class="alert alert-solid-danger alert-bold" role="alert"><div class="alert-text">${
+                                    xhr.responseJSON[key][0]
+                                    }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                                );
+                            }
+                        }
+                    }
+                });
+            });
+        },
+        SubmitUpdateUserForm: function() {
+            $("#update-user-form").on('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                AppendAjaxEvent($(this));
+            });
+        },
+        init: function() {
+            this.GeneratePassword();
+            this.ViewPassword();
+            this.SubmitUpdatePasswordForm();
+            this.SubmitUpdateUserForm();
+        }
+    }
+    var DropZone = {
+        init: function (element) {
+            var options = {
+            paramName: "File", // The name that will be used to transfer the file
+            maxFiles: 1,
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            acceptedFiles: "image/*,.psd",
+            init: function() {
+                this.on('sending', function (file, xhr, formData) {
+                    formData.append("__RequestVerificationToken",  $("input[name='__RequestVerificationToken'").val());
+                });
+                this.on('removedfile', function() {
+                    $.get('@Settings.Routes.Upload.RemoveUploadedProfileImage', function (response) { });
+                });
+            },
+            transformFile: function(file, done) {
+                // Create Dropzone reference for use in confirm button click handler
+                var myDropZone = this;
+                // Create the image editor overlay
+                var editor = document.createElement('div');
+                editor.style.position = 'fixed';
+                editor.style.left = 0;
+                editor.style.right = 0;
+                editor.style.top = 0;
+                editor.style.bottom = 0;
+                editor.style.zIndex = 9999;
+                editor.style.backgroundColor = '#000';
+                document.body.appendChild(editor);
+                // Create confirm button at the top left of the viewport
+                var confirm = document.createElement('button');
+                confirm.classList.add('btn', 'btn-brand');
+                confirm.style.position = 'absolute';
+                confirm.style.top = '10px';
+                confirm.style.left = '10px';
+                confirm.style.zIndex = 9999;
+                confirm.textContent = '@_sharedLocalizer.Confirm';
+                confirm.addEventListener('click', function() {
+                    // Remove the editor from the view
+                    croppie.result({
+                        type: 'blob',
+                        size: {
+                            width: 256,
+                            height: 256
+                        }
+                    }).then(function(blob) {
+                        // Update the image thumbnail with the new image data
+                        myDropZone.createThumbnail(
+                            blob,
+                            myDropZone.options.thumbnailWidth,
+                            myDropZone.options.thumbnailHeight,
+                            myDropZone.options.thumbnailMethod,
+                            false,
+                            function(dataURL) {
+                                // Update the Dropzone file thumbnail
+                                myDropZone.emit('thumbnail', file, dataURL);
+                                // Return modified file to dropzone
+                                done(blob);
+                            }
+                        );
+                    });
+                    // Remove the editor from view
+                    editor.parentNode.removeChild(editor);
+                });
+                editor.appendChild(confirm);
+                var croppieOptions = {
+                    viewport: {
+                        width: 350,
+                        height: 350,
+                        type: 'square'
+                    },
+                    enableZoom: true,
+                    showZoomer: true
+                }
+
+                // Create the croppie editor
+                var croppie = new Croppie(editor, croppieOptions);
+                croppie.bind({
+                    url: URL.createObjectURL(file)
+                });
+            }
+            }
+            element.addClass("dropzone");
+            element.dropzone(options);
+        }
+    }
+    $(document).ready(function() {
+        $('.kt-select').select2();
+        Events.init();
+        DropZone.init($("#dropzone"));
+    });
+
+    function AppendAjaxEvent(formElement) {
+        $.ajax({
+            url: formElement.attr('action'),
+            type: 'POST',
+            data: formElement.serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $("#alert-messages").html(
+                        `<div class="alert alert-solid-success alert-bold" role="alert"><div class="alert-text">${
+                        result.message
+                        }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                    );
+                } else {
+                    $("#alert-messages").html(
+                        `<div class="alert alert-solid-danger alert-bold" role="alert"><div class="alert-text">${
+                        result.message
+                        }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                    );
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#alert-messages").html('');
+                for (let key in xhr.responseJSON) {
+                    if (key != null) {
+                        $("#alert-messages").append(
+                            `<div class="alert alert-solid-danger alert-bold" role="alert"><div class="alert-text">${
+                            xhr.responseJSON[key][0]
+                            }</div><div class="alert-close"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><i class="la la-close"></i></span></button></div></div>`
+                        );
+                    }
+                }
+            }
+        });
+    }
+</script>

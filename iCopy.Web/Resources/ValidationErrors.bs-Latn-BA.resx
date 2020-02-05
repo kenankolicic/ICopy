@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Current password is not correct" xml:space="preserve">
+    <value>Trenutna šifra je neispravna</value>
+  </data>
+  <data name="Email is already is use" xml:space="preserve">
+    <value>Email se koristi</value>
+  </data>
+  <data name="EmailWrongFormat" xml:space="preserve">
+    <value>Neispravan format email-a</value>
+  </data>
+  <data name="ErrDateWrongFormat" xml:space="preserve">
+    <value>Pogrešan format datuma</value>
+  </data>
+  <data name="ErrEnterTheSameValueAgain" xml:space="preserve">
+    <value>Unesite istu vrijednost ponovo</value>
+  </data>
+  <data name="ErrEnterValidNumber" xml:space="preserve">
+    <value>Unesite ispravan broj</value>
+  </data>
+  <data name="ErrMaxLenght" xml:space="preserve">
+    <value>Maksimalan broj karaktera je 100</value>
+  </data>
+  <data name="ErrMaxNumberOfCharacters" xml:space="preserve">
+    <value>Maksimalan broj karaktera je {0}</value>
+  </data>
+  <data name="ErrMinLenghtPassword" xml:space="preserve">
+    <value>Šifra mora imati najmanje 8 karaktera</value>
+  </data>
+  <data name="ErrMinLenghtPasswordConfirm" xml:space="preserve">
+    <value>Potvrda šifre mora imati najmanje 8 karaktera</value>
+  </data>
+  <data name="ErrMinMaxName" xml:space="preserve">
+    <value>Naziv mora imate najmanje 5 karaktera</value>
+  </data>
+  <data name="ErrMinMaxShortName" xml:space="preserve">
+    <value>Skraćeni naziv mora imati najmanje 2 karaktera</value>
+  </data>
+  <data name="ErrMinNumberOfCharacters" xml:space="preserve">
+    <value>Minimalan broj karaktera je {0}</value>
+  </data>
+  <data name="ErrNoAddress" xml:space="preserve">
+    <value>Adresa je obavezna</value>
+  </data>
+  <data name="ErrNoBirthDate" xml:space="preserve">
+    <value>Datum rođenja je obavezan</value>
+  </data>
+  <data name="ErrNoCity" xml:space="preserve">
+    <value>Grad je obavezan</value>
+  </data>
+  <data name="ErrNoConfirmPassword" xml:space="preserve">
+    <value>Potvrda šifre je obavezna</value>
+  </data>
+  <data name="ErrNoContactAgent" xml:space="preserve">
+    <value>Kontakt agent je obavezan</value>
+  </data>
+  <data name="ErrNoContactEmail" xml:space="preserve">
+    <value>Kontakt email je obavezan</value>
+  </data>
+  <data name="ErrNoCountry" xml:space="preserve">
+    <value>Država je obavezna</value>
+  </data>
+  <data name="ErrNoCurrentPassword" xml:space="preserve">
+    <value>Trenutna šifra je obavezna</value>
+  </data>
+  <data name="ErrNoEmail" xml:space="preserve">
+    <value>Email je obavezan</value>
+  </data>
+  <data name="ErrNoFirstName" xml:space="preserve">
+    <value>Ime je obavezno</value>
+  </data>
+  <data name="ErrNoGender" xml:space="preserve">
+    <value>Spol je obavezan</value>
+  </data>
+  <data name="ErrNoJIB" xml:space="preserve">
+    <value>JIB je obavezan</value>
+  </data>
+  <data name="ErrNoLastName" xml:space="preserve">
+    <value>Prezime je obavezno</value>
+  </data>
+  <data name="ErrNoName" xml:space="preserve">
+    <value>Naziv je obavezan</value>
+  </data>
+  <data name="ErrNoNewPassword" xml:space="preserve">
+    <value>Nova šifra je obavezna</value>
+  </data>
+  <data name="ErrNoPassword" xml:space="preserve">
+    <value>Šifra je obavezna</value>
+  </data>
+  <data name="ErrNoPasswordConfirm" xml:space="preserve">
+    <value>Potvrda šifre je obavezna</value>
+  </data>
+  <data name="ErrNoPhoneNumber" xml:space="preserve">
+    <value>Broj telefona je obavezan</value>
+  </data>
+  <data name="ErrNoPhoneNumberCode" xml:space="preserve">
+    <value>Pozivni broj države je obavezan</value>
+  </data>
+  <data name="ErrNoPhoneNumberRegex" xml:space="preserve">
+    <value>Regex za broj telefona je obavezan</value>
+  </data>
+  <data name="ErrNoPostalCode" xml:space="preserve">
+    <value>Poštanski broj je obavezan</value>
+  </data>
+  <data name="ErrNoShortName" xml:space="preserve">
+    <value>Skraćeni naziv je obavezan</value>
+  </data>
+  <data name="ErrNotSamePasswordConfirm" xml:space="preserve">
+    <value>Šifre se ne poklapaju</value>
+  </data>
+  <data name="ErrNoUsername" xml:space="preserve">
+    <value>Korisničko ime je obavezno</value>
+  </data>
+  <data name="ErrPasswordPolicy" xml:space="preserve">
+    <value>Šifra mora sadržavati barem jedan broj, malo slovo, veliko slovo i specijalni karakter</value>
+  </data>
+  <data name="ErrThisFieldIsRequired" xml:space="preserve">
+    <value>Ovo polje je obavezno</value>
+  </data>
+  <data name="ErrTypePhoneNumber" xml:space="preserve">
+    <value>Format telefonskog broja je pogrešan</value>
+  </data>
+  <data name="ErrUniqueEmail" xml:space="preserve">
+    <value>Email je zauzet</value>
+  </data>
+  <data name="ErrUniquePhoneNumber" xml:space="preserve">
+    <value>Broj telefona je zauzet</value>
+  </data>
+  <data name="ErrUniqueUsername" xml:space="preserve">
+    <value>Korisničko ime je zauzeto</value>
+  </data>
+  <data name="Phone number is already is use" xml:space="preserve">
+    <value>Broj telefona se koristi</value>
+  </data>
+  <data name="Username is already in use" xml:space="preserve">
+    <value>Korisničko ime se koristi</value>
+  </data>
+  <data name="EmployeeSettings" xml:space="preserve">
+    <value>Postavke zaposlenika</value>
+  </data>
+  <data name="ErrUrl" xml:space="preserve">
+    <value>Pogrešan link</value>
+  </data>
+  <data name="ErrUsernamePolicy" xml:space="preserve">
+    <value>Korisničko ime može sadržavati samo slova, brojeve, donju crtu i tačku</value>
+  </data>
+</root>

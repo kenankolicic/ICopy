@@ -1,0 +1,482 @@
+﻿@model iCopy.Model.Request.Company
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = _sharedLocalizer.AddCompany;
+}
+@section styles{
+    <link href="~/assets/wizard/css/wizard.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/croppie/croppie.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="https://unpkg.com/croppie"></script>
+    <script src="~/assets/js/PasswordFunctions.js"></script>
+}
+<div class="kt-portlet">
+    <div class="kt-portlet__body kt-portlet__body--fit">
+        <div class="kt-grid  kt-wizard-v2 kt-wizard-v2--white" id="kt_wizard_v2" data-ktwizard-state="step-first">
+            <div class="kt-grid__item kt-wizard-v2__aside">
+                <!--begin: Form Wizard Nav -->
+                <div class="kt-wizard-v2__nav">
+                    <div class="kt-wizard-v2__nav-items">
+                        <a class="kt-wizard-v2__nav-item" href="#" data-ktwizard-type="step" data-ktwizard-state="current">
+                            <div class="kt-wizard-v2__nav-body">
+                                <div class="kt-wizard-v2__nav-icon">
+                                    <i class="flaticon-home"></i>
+                                </div>
+                                <div class="kt-wizard-v2__nav-label">
+                                    <div class="kt-wizard-v2__nav-label-title">
+                                        @_sharedLocalizer.CompanySettings
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="kt-wizard-v2__nav-item" href="#" data-ktwizard-type="step">
+                            <div class="kt-wizard-v2__nav-body">
+                                <div class="kt-wizard-v2__nav-icon">
+                                    <i class="flaticon-user-settings"></i>
+                                </div>
+                                <div class="kt-wizard-v2__nav-label">
+                                    <div class="kt-wizard-v2__nav-label-title">
+                                        @_sharedLocalizer.AccountSettings
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--end: Form Wizard Nav -->
+
+            </div>
+            <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v2__wrapper">
+                <!--begin: Form Wizard Form-->
+                <form asp-area="administration" asp-controller="company" asp-action="insert" asp-antiforgery="true" class="kt-form" id="kt_form">
+                    <!--begin: Form Wizard Step 1-->
+                    <div class="kt-wizard-v2__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+                        <div class="kt-heading kt-heading--md">@_sharedLocalizer.CompanySettings</div>
+                        <div class="kt-form__section kt-form__section--first">
+                            <div class="kt-wizard-v2__form">
+                                <div class="form-group">
+                                    <label asp-for="Name">@_sharedLocalizer.Name</label>
+                                    <input type="text" asp-for="Name" class="form-control" placeholder="@_sharedLocalizer.Name" />
+                                    <span asp-validation-for="Name" class="form-text text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Jib">@_sharedLocalizer.JIB</label>
+                                    <input type="number" class="form-control" asp-for="Jib" placeholder="@_sharedLocalizer.JIB" />
+                                    <span asp-validation-for="Jib" class="form-text text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label asp-for="ContactAgent">@_sharedLocalizer.ContactAgent</label>
+                                            <input type="text" class="form-control" asp-for="ContactAgent" placeholder="@_sharedLocalizer.ContactAgent" />
+                                            <span asp-validation-for="ContactAgent" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label asp-for="PhoneNumber">@_sharedLocalizer.ContactAgentPhoneNumber</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="la la-phone"></i></span></div>
+                                                <input type="number" class="form-control" asp-for="PhoneNumber" placeholder="@_sharedLocalizer.PhoneNumber" />
+                                                <span asp-validation-for="PhoneNumber" class="form-text text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Jib">@_sharedLocalizer.ContactEmail</label>
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="@_sharedLocalizer.ContactEmail" />
+                                    <span asp-validation-for="Email" class="form-text text-danger"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label for="country">@_sharedLocalizer.Country</label>
+                                            <select id="countries-list" asp-items="@(await _selectList.Countries())" class="form-control kt-select2"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label asp-for="CityId">@_sharedLocalizer.City</label>
+                                            <select asp-items="@(await _selectList.CitiesByCityCountryId(Model.CityId ?? 0))" asp-for="CityId" class="form-control kt-select2"></select>
+                                            <span asp-validation-for="CityId" class="form-text text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Address">@_sharedLocalizer.Address</label>
+                                    <input type="text" class="form-control" asp-for="Address" placeholder="@_sharedLocalizer.Address" autocomplete="off" />
+                                    <span asp-validation-for="Address" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: Form Wizard Step 1-->
+                    <!--begin: Form Wizard Step 2-->
+                    <div class="kt-wizard-v2__content" data-ktwizard-type="step-content">
+                        <div class="kt-heading kt-heading--md">@_sharedLocalizer.AccountSettings</div>
+                        <div class="kt-form__section kt-form__section--first">
+                            <div class="kt-wizard-v2__form">
+                                <div class="form-group">
+                                    <label>@_sharedLocalizer.ProfileImage</label>
+                                    <div class="kt-dropzone m-dropzone--success" action="@Settings.Routes.Upload.UploadProfileImage" id="dropzone">
+                                        <div class="kt-dropzone__msg dz-message needsclick">
+                                            <h5 class="kt-dropzone__msg-title">@_sharedLocalizer.DragFilesOrClickToUpload</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.Username">@_sharedLocalizer.Username</label>
+                                    <input type="text" class="form-control" asp-for="User.Username" placeholder="@_sharedLocalizer.Username" autocomplete="off">
+                                    <span class="form-text text-danger" asp-validation-for="User.Username"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.Email">@_sharedLocalizer.Email</label>
+                                    <input type="email" class="form-control" asp-for="User.Email" placeholder="@_sharedLocalizer.Email" autocomplete="off">
+                                    <span class="form-text text-danger" asp-validation-for="User.Email"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.PhoneNumber">@_sharedLocalizer.PhoneNumber</label>
+                                    <input type="number" class="form-control" asp-for="User.PhoneNumber" placeholder="@_sharedLocalizer.PhoneNumber" autocomplete="off">
+                                    <span class="form-text text-danger" asp-validation-for="User.PhoneNumber"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.Password">@_sharedLocalizer.Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" asp-for="User.Password" placeholder="@_sharedLocalizer.Password" autocomplete="off">
+                                        <span class="form-text text-danger" asp-validation-for="User.Password"></span>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-brand btn-icon" type="button" id="generate-password"><i class="fa fa-key"></i></button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-brand btn-icon" type="button" id="view-password"><i class="fa fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.PasswordConfirm">@_sharedLocalizer.PasswordConfirm</label>
+                                    <input type="password" class="form-control" asp-for="User.PasswordConfirm" placeholder="@_sharedLocalizer.PasswordConfirm" autocomplete="off">
+                                    <span class="form-text text-danger" asp-validation-for="User.PasswordConfirm"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: Form Wizard Step 2-->
+                    <!--begin: Form Actions -->
+                    <div class="kt-form__actions">
+                        <div class="btn btn-secondary btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-prev">
+                            @_sharedLocalizer.Previous
+                        </div>
+                        <div class="btn btn-success btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-submit">
+                            @_sharedLocalizer.Submit
+                        </div>
+                        <div class="btn btn-brand btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-next">
+                            @_sharedLocalizer.NextStep
+                        </div>
+                    </div>
+                    <!--end: Form Actions -->
+                </form>
+                <!--end: Form Wizard Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    "use strict";
+    // Class definition
+    var wizardEl;
+    var formEl;
+    var validator;
+    var wizard;
+    var KTWizard2 = function () {
+        // Private functions
+        var initWizard = function () {
+            // Initialize form wizard
+            wizard = new KTWizard('kt_wizard_v2', {
+                startStep: 1,
+            });
+            // Validation before going to next page
+            wizard.on('beforeNext', function (wizardObj) {
+                if (validator.form() !== true) {
+                    wizardObj.stop(); // don't go to the next step
+                }
+            });
+            // Change event
+            wizard.on('change', function (wizard) {
+                KTUtil.scrollTop();
+            });
+        }
+
+        var initValidation = function () {
+            validator = formEl.validate({
+                    // Validate only visible fields
+                ignore: ":hidden",
+                    // Validation rules
+                rules: {
+                    //= Step 1
+                    '@(nameof(iCopy.Model.Request.Company.Name))': {
+                        required: true,
+                        maxlength: 100
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.Jib))': {
+                        required: true,
+                        number: true
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.ContactAgent))': {
+                        required: true,
+                        maxlength: 100
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.PhoneNumber))': {
+                        required: true,
+                        number: true
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.Email))': {
+                        required: true,
+                        email: true,
+                        maxlength: 100
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.Address))': {
+                        required: true,
+                        maxlength: 100
+                    },
+                    '@(nameof(iCopy.Model.Request.Company.CityId))': {
+                        required: true
+                    },
+                    //= Step 2
+                    'User.Username': {
+                        required: true,
+                        maxlength: 100
+                    },
+                    'User.Email': {
+                        required: true,
+                        email: true,
+                        maxlength: 100
+                    },
+                    'User.PhoneNumber': {
+                        required: true,
+                        number: true
+                    },
+                    'User.Password': {
+                        required: true,
+                        maxlength: 100,
+                        minlength: 8
+                    },
+                    'User.PasswordConfirm': {
+                        required: true,
+                        maxlength: 100,
+                        minlength: 8
+                    }
+                    },
+
+                // Display error
+                invalidHandler: function (event, validator) {
+                    KTUtil.scrollTop();
+                    swal.fire({
+                        title: "",
+                        html: "@_sharedLocalizer.CorrectErrorBeforeGoToNextStep",
+                        type: "error",
+                        confirmButtonClass: "btn btn-secondary"
+                    });
+                }
+                });
+        }
+
+        var initSubmit = function () {
+            var btn = formEl.find('[data-ktwizard-type="action-submit"]');
+
+            btn.on('click', function (e) {
+                e.preventDefault();
+
+                if (validator.form()){
+                    // See: src\js\framework\base\app.js
+                    KTApp.progress(btn);
+                    KTApp.block(formEl);
+                    // See: http://malsup.com/jquery/form/#ajaxSubmit
+                    formEl.ajaxSubmit({
+                        success: function () {
+                            KTApp.unprogress(btn);
+                            KTApp.unblock(formEl);
+                            swal.fire({
+                                title: "",
+                                html: "@_sharedLocalizer.SuccAdd",
+                                type: "success",
+                                confirmButtonClass: "btn btn-secondary",
+                                allowOutsideClick: false
+                            }).then(function (data) {
+                                window.location.replace('@Settings.Routes.Company.Index');
+                            });
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            KTApp.unprogress(btn);
+                            KTApp.unblock(formEl);
+                            if (XMLHttpRequest.status == 400) {
+                                for (var key in XMLHttpRequest.responseJSON) {
+                                    if (key != null) {
+                                        let error = {};
+                                        error[key] = XMLHttpRequest.responseJSON[key][0];
+                                        validator.showErrors(error);
+                                    }
+                                }
+                                swal.fire({
+                                    title: "",
+                                    html: "@_sharedLocalizer.CorrectTheErrors",
+                                    type: "error",
+                                    confirmButtonClass: "btn btn-secondary"
+                                });
+                            } else {
+                                swal.fire({
+                                    title: "",
+                                    html: "@_sharedLocalizer.ErrAdd",
+                                    type: "error",
+                                    confirmButtonClass: "btn btn-secondary",
+                                    allowOutsideClick: false
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        return {
+            // public functions
+            init: function () {
+                wizardEl = KTUtil.get('kt_wizard_v2');
+                formEl = $('#kt_form');
+                initWizard();
+                initValidation();
+                initSubmit();
+            }
+        };
+    }();
+
+    var ChangeEvents = {
+        init: function () {
+            $("#countries-list").on('change', function () {
+                $.ajax({
+                    url: '@Settings.Routes.SelectList.CitiesByCountry',
+                    type: 'GET',
+                    data: {
+                        id: $("#countries-list").val()
+                    },
+                    success: function(result) {
+                        var options = "";
+                        $.each(result,
+                            (index, value) => {
+                                options += `<option value='${value.value}'>${value.text}</option>`;
+                            });
+                        $("#CityId").html(options);
+                    }
+                });
+            });
+            $('#view-password').on('click', function(e) {
+                e.preventDefault();
+                $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+                $('input[name=\'User.Password\']').attr('type',
+                    $(this).is(function() { return $('input[name=\'User.Password\']').attr('type') == 'password' })
+                    ? 'text'
+                    : 'password');
+            });
+            $('#generate-password').on('click', function(e) {
+                e.preventDefault();
+                let generatedPassword = Password.Generate();
+                $('input[name=\'User.Password\']').val(generatedPassword);
+                $('input[name=\'User.PasswordConfirm\']').val(generatedPassword);
+            });
+        }
+    }
+    var DropZone = {
+        init: function (element) {
+            var options = {
+            paramName: "File", // The name that will be used to transfer the file
+            maxFiles: 1,
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            acceptedFiles: "image/*,.psd",
+            init: function() {
+                this.on('sending', function (file, xhr, formData) { 
+                    formData.append("__RequestVerificationToken",  $("input[name='__RequestVerificationToken'").val());
+                });
+                this.on('removedfile', function() {
+                    $.get('@Settings.Routes.Upload.RemoveUploadedProfileImage', function (response) { });
+                });
+            },
+            transformFile: function(file, done) {
+                // Create Dropzone reference for use in confirm button click handler
+                var myDropZone = this;
+                // Create the image editor overlay
+                var editor = document.createElement('div');
+                editor.style.position = 'fixed';
+                editor.style.left = 0;
+                editor.style.right = 0;
+                editor.style.top = 0;
+                editor.style.bottom = 0;
+                editor.style.zIndex = 9999;
+                editor.style.backgroundColor = '#000';
+                document.body.appendChild(editor);
+                // Create confirm button at the top left of the viewport
+                var confirm = document.createElement('button');
+                confirm.classList.add('btn', 'btn-brand');
+                confirm.style.position = 'absolute';
+                confirm.style.top = '10px';
+                confirm.style.left = '10px';
+                confirm.style.zIndex = 9999;
+                confirm.textContent = '@_sharedLocalizer.Confirm';
+                confirm.addEventListener('click', function() {
+                    // Remove the editor from the view
+                    croppie.result({
+                        type: 'blob',
+                        size: {
+                            width: 256,
+                            height: 256
+                        }
+                    }).then(function(blob) {
+                        // Update the image thumbnail with the new image data
+                        myDropZone.createThumbnail(
+                            blob,
+                            myDropZone.options.thumbnailWidth,
+                            myDropZone.options.thumbnailHeight,
+                            myDropZone.options.thumbnailMethod,
+                            false,
+                            function(dataURL) {
+                                // Update the Dropzone file thumbnail
+                                myDropZone.emit('thumbnail', file, dataURL);
+                                // Return modified file to dropzone
+                                done(blob);
+                            }
+                        );
+                    });
+                    // Remove the editor from view
+                    editor.parentNode.removeChild(editor);
+                });
+                editor.appendChild(confirm);
+                var croppieOptions = {
+                    viewport: {
+                        width: 350,
+                        height: 350,
+                        type: 'square'
+                    },
+                    enableZoom: true,
+                    showZoomer: true
+                }
+
+                // Create the croppie editor
+                var croppie = new Croppie(editor, croppieOptions);
+                croppie.bind({
+                    url: URL.createObjectURL(file)
+                });
+            }
+            }
+            element.addClass("dropzone");
+            element.dropzone(options);
+        }
+    }
+
+    jQuery(document).ready(function () {
+        KTWizard2.init();
+        ChangeEvents.init();
+        $("#CityId, #countries-list").select2({ width: '100%' });
+        DropZone.init($("#dropzone"));
+    });
+
+</script>

@@ -1,0 +1,99 @@
+﻿@model iCopy.Model.Response.Employee
+@{
+    Layout = null;
+}
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">@_sharedLocalizer.Details</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <ul class="nav nav-tabs  nav-tabs-line nav-tabs-line-brand" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#employee_details" role="tab"><i class="flaticon-home"></i> @_sharedLocalizer.EmployeeDetails</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#account_details" role="tab"><i class="flaticon-avatar"></i> @_sharedLocalizer.AccountDetails</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="employee_details" role="tabpanel">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.FirstName</label>
+                        <input class="form-control" type="text" disabled asp-for="Person.FirstName" />
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.LastName</label>
+                        <input class="form-control" type="text" disabled asp-for="Person.LastName" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.MiddleName</label>
+                        <input class="form-control" type="text" disabled asp-for="Person.MiddleName" />
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.Gender</label>
+                        <input class="form-control" type="text" disabled asp-for="Person.Gender" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.BirthDate</label>
+                        <input class="form-control" type="text" disabled asp-for="Person.BirthDate" />
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.Copier</label>
+                        <input class="form-control" type="text" disabled asp-for="Copier.Name" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="account_details" role="tabpanel">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/@(Model?.ProfilePhoto?.Path ?? Settings.Defaults.Photo.ProfilePhoto)" />
+                </div>
+                <div class="col-md-8 pl-5">
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.Username</label>
+                        <input class="form-control" type="text" disabled asp-for="User.Username" />
+                    </div>
+                    <div class="form-group">
+                        <label>@_sharedLocalizer.Email</label>
+                        <input class="form-control" type="text" disabled asp-for="User.Email" />
+                    </div>
+                    @if (Model.User.LockoutEnd.HasValue)
+                    {
+                        <div class="form-group">
+                            <label>@_sharedLocalizer.LockoutEnd</label>
+                            <input class="form-control" type="text" disabled asp-for="User.LockoutEnd" />
+                        </div>
+
+                        @if (Model.User.EmailConfirmed)
+                        {
+                            <span class="kt-badge kt-badge--inline kt-badge--success">@_sharedLocalizer.EmailConfirmed</span>
+                        }
+                        else
+                        {
+                            <span class="kt-badge kt-badge--inline kt-badge--danger">@_sharedLocalizer.EmailNotConfirmed</span>
+                        }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">@_sharedLocalizer.Close</button>
+</div>
